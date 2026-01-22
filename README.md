@@ -1,4 +1,4 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# 🤖 Agente de Organização Pessoal/Produtividade com IA Generativa
 
 ## Contexto
 
