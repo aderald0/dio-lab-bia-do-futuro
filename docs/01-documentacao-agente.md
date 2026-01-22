@@ -26,7 +26,7 @@ De forma proativa, o agente sugere ajustes na organização, lembra boas prátic
 ## Persona e Tom de Voz
 
 ### Nome do Agente
-Foco
+Focus
 
 ### Personalidade
 > Como o agente se comporta? (ex: consultivo, direto, educativo)
