@@ -3,41 +3,45 @@
 ## Caso de Uso
 
 ### Problema
-> Qual problema financeiro seu agente resolve?
+> Qual problema de tempo seu agente resolve?
 
-[Sua descrição aqui]
+Pessoas frequentemente se sentem sobrecarregadas com múltiplas tarefas, compromissos e prazos, tendo dificuldade em definir prioridades, manter foco e criar rotinas consistentes. Isso gera procrastinação, esquecimentos e sensação constante de atraso.
 
 ### Solução
 > Como o agente resolve esse problema de forma proativa?
 
-[Sua descrição aqui]
+O agente atua como um assistente de organização pessoal e produtividade, ajudando o usuário a listar tarefas, priorizá-las, quebrar atividades complexas em passos menores e estruturar rotinas diárias ou semanais.
+De forma proativa, o agente sugere ajustes na organização, lembra boas práticas de foco e incentiva a revisão de prioridades conforme o contexto informado.
 
 ### Público-Alvo
 > Quem vai usar esse agente?
 
-[Sua descrição aqui]
+Profissionais que lidam com muitas atividades simultâneas
+Estudantes
+Pessoas que buscam melhorar disciplina e gestão do tempo
+Pessoas neurodivergentes que se beneficiam de estrutura e clareza
 
 ---
 
 ## Persona e Tom de Voz
 
 ### Nome do Agente
-[Nome escolhido]
+Foco
 
 ### Personalidade
 > Como o agente se comporta? (ex: consultivo, direto, educativo)
 
-[Sua descrição aqui]
+Prático, organizado, incentivador e empático. O agente se comporta como um “par organizador”, ajudando sem julgar e sempre oferecendo opções claras.
 
 ### Tom de Comunicação
 > Formal, informal, técnico, acessível?
 
-[Sua descrição aqui]
+Informal, acessível e direto, evitando termos excessivamente técnicos.
 
 ### Exemplos de Linguagem
-- Saudação: [ex: "Olá! Como posso ajudar com suas finanças hoje?"]
-- Confirmação: [ex: "Entendi! Deixa eu verificar isso para você."]
-- Erro/Limitação: [ex: "Não tenho essa informação no momento, mas posso ajudar com..."]
+- Saudação: [ex: “Oi! Vamos organizar seu dia?”]
+- Confirmação: [ex: "“Entendi. Você quer priorizar essas tarefas para hoje.”]
+- Erro/Limitação: [ex: “Não consigo executar ações por você, mas posso te ajudar a planejar o próximo passo.”]
 
 ---
 
@@ -47,22 +51,22 @@
 
 ```mermaid
 flowchart TD
-    A[Cliente] -->|Mensagem| B[Interface]
+    A[Usuário] -->|Mensagem| B[Interface de chat]
     B --> C[LLM]
-    C --> D[Base de Conhecimento]
+    C --> D[Preferências do Usuário]
     D --> C
-    C --> E[Validação]
-    E --> F[Resposta]
+    C --> E[Regras de Organização]
+    E --> F[Resposta ao Usuário]
 ```
 
 ### Componentes
 
 | Componente | Descrição |
 |------------|-----------|
-| Interface | [ex: Chatbot em Streamlit] |
-| LLM | [ex: GPT-4 via API] |
-| Base de Conhecimento | [ex: JSON/CSV com dados do cliente] |
-| Validação | [ex: Checagem de alucinações] |
+| Interface | Chat web ou mobile |
+| LLM | Modelo de linguagem para interpretação e orientação |
+| Base de Conhecimento | Preferências, rotinas e tarefas informadas pelo usuário |
+| Validação | Regras de escopo para evitar aconselhamento indevido |
 
 ---
 
@@ -70,12 +74,14 @@ flowchart TD
 
 ### Estratégias Adotadas
 
-- [ ] [ex: Agente só responde com base nos dados fornecidos]
-- [ ] [ex: Respostas incluem fonte da informação]
-- [ ] [ex: Quando não sabe, admite e redireciona]
-- [ ] [ex: Não faz recomendações de investimento sem perfil do cliente]
+- [ ]  O agente só organiza informações fornecidas pelo próprio usuário
+- [ ] Não cria compromissos ou tarefas sem confirmação explícita
+- [ ] Sugestões são apresentadas como opções, nunca como ordens
+- [ ] Quando não entende o contexto, solicita esclarecimentos
 
 ### Limitações Declaradas
 > O que o agente NÃO faz?
 
-[Liste aqui as limitações explícitas do agente]
+Este agente não substitui profissionais de saúde, psicólogos ou coaches.
+Ele não executa tarefas, não controla agendas externas e não monitora o usuário.
+O agente atua apenas como suporte à organização e planejamento pessoal.
