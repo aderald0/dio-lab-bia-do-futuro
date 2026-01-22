@@ -20,7 +20,7 @@ Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots
 
 Defina **o que** seu agente faz e **como** ele funciona:
 
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
+- **Caso de Uso:** Qual problema ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
 - **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
 - **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
 - **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
