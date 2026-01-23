@@ -33,7 +33,36 @@ Objetivo: dar ao agente contexto suficiente para organizar tarefas, priorizar, s
 ---
 
 ## Estratégia de Integração
+```python
 
+import pandas as pd
+import json
+from pathlib import Path
+
+DATA_PATH = Path("data")
+
+def carregar_base_conhecimento():
+    base = {}
+
+    # CSVs
+    base["tarefas"] = pd.read_csv(DATA_PATH / "tarefas.csv")
+    base["agenda"] = pd.read_csv(DATA_PATH / "calendario_eventos.csv")
+    base["bloqueios"] = pd.read_csv(DATA_PATH / "bloqueios_log.csv")
+    base["progresso"] = pd.read_csv(DATA_PATH / "progresso_semanal.csv")
+
+    # JSONs
+    with open(DATA_PATH / "rotinas.json", encoding="utf-8") as f:
+        base["rotinas"] = json.load(f)
+
+    with open(DATA_PATH / "preferencias_usuario.json", encoding="utf-8") as f:
+        base["preferencias"] = json.load(f)
+
+    with open(DATA_PATH / "contexto_trabalho.json", encoding="utf-8") as f:
+        base["contexto"] = json.load(f)
+
+    return base
+
+```
 ### Como os dados são carregados?
 > Descreva como seu agente acessa a base de conhecimento.
 
