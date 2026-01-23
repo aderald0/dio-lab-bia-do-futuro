@@ -1,0 +1,42 @@
+{
+  "rotina_manha": {
+    "inicio": "07:00",
+    "fim": "08:00",
+    "itens": [
+      "hidratação",
+      "revisar agenda do dia",
+      "priorizar top 3 tarefas"
+    ]
+  },
+  "rotina_tarde": {
+    "inicio": "13:30",
+    "fim": "14:00",
+    "itens": [
+      "checar chamados críticos",
+      "pomodoro de foco 25min"
+    ]
+  },
+  "rotina_noite": {
+    "inicio": "20:30",
+    "fim": "21:00",
+    "itens": [
+      "encerramento do dia",
+      "planejar amanhã",
+      "desconexão gradual"
+    ]
+  },
+  "habitos": [
+    {
+      "nome": "caminhada",
+      "frequencia": "3x/semana"
+    },
+    {
+      "nome": "leitura",
+      "frequencia": "15min/dia"
+    },
+    {
+      "nome": "alongamento",
+      "frequencia": "5min/dia"
+    }
+  ]
+}

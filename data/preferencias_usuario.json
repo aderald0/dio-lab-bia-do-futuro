@@ -1,0 +1,25 @@
+{
+  "nome": "ADERALDO DE JESUS AMARAL",
+  "cargo": "Analista Service Desk Jr",
+  "janela_foco": [
+    "09:00-11:00",
+    "14:00-16:00"
+  ],
+  "estilo_comunicacao": "direto_e_positivo",
+  "granularidade_sugestoes": "passo_a_passo",
+  "limite_agenda_diaria_tarefas": 5,
+  "blocos_padrao": {
+    "foco": 25,
+    "pausa": 5
+  },
+  "tom_lembrete": "amigavel",
+  "nao_interromper": [
+    "12:00-13:00",
+    "18:00-07:00"
+  ],
+  "timezone": "America/Sao_Paulo",
+  "preferencias_tarefas": {
+    "quebrar_tarefas_maiores_60min": true,
+    "confirmar_criacao_compromissos": true
+  }
+}

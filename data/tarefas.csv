@@ -1,0 +1,21 @@
+id,titulo,descricao,contexto,prioridade,urgencia,estimativa_min,status,deadline,tags
+T-001,Atualizar planilha Escala_Central,Validar fórmulas e lançar novos nomes,Trabalho,Alta,Alta,45,em_andamento,2026-01-22,planilha;ti;service_desk
+T-002,Revisar checklist do PJE,Conferir acesso e versões dos softwares,Trabalho,Média,Média,30,pendente,2026-01-23,judiciario;software
+T-003,Exercício físico 20min,Caminhada leve,Bem-estar,Média,Baixa,20,pendente,,saude;hábito
+T-004,Organizar e-mail (inbox zero),Separar por pastas e criar regras,Pessoal,Baixa,Baixa,25,pendente,,organizacao
+T-005,Fechar relatório semanal SD,Consolidar chamados e métricas,Trabalho,Alta,Média,50,pendente,2026-01-24,relatorio;metricas
+T-006,Backup de arquivos,Salvar documentos críticos,Trabalho,Média,Baixa,30,pendente,,backup;seguranca
+T-007,Revisar regras de inbox,Ajustar filtros e categorias,Pessoal,Baixa,Baixa,25,pendente,,email;organizacao
+T-008,Planejar semana,Definir top 3 por dia,Pessoal,Média,Média,35,pendente,2026-01-25,planejamento
+T-009,Checar acessos VPN,Validar expiração e renovar se preciso,Trabalho,Média,Alta,20,pendente,2026-01-23,vpn;acesso
+T-010,Limpeza de desktop,Organizar pastas e atalhos,Pessoal,Baixa,Baixa,20,pendente,,organizacao;pc
+T-011,Tarefa genérica 10,Subtarefa ou item de manutenção,Bem-estar,Alta,Alta,50,em_andamento,2026-01-24,organizacao;rapido
+T-012,Tarefa genérica 11,Subtarefa ou item de manutenção,Bem-estar,Baixa,Baixa,20,concluida,,rapido;rotina
+T-013,Tarefa genérica 12,Subtarefa ou item de manutenção,Trabalho,Alta,Baixa,45,pendente,,organizacao;planejamento
+T-014,Tarefa genérica 13,Subtarefa ou item de manutenção,Trabalho,Média,Baixa,30,pendente,,planejamento;ti
+T-015,Tarefa genérica 14,Subtarefa ou item de manutenção,Pessoal,Média,Alta,25,em_andamento,2026-01-26,pomodoro;rotina
+T-016,Tarefa genérica 15,Subtarefa ou item de manutenção,Pessoal,Baixa,Média,60,pendente,,rapido;saude
+T-017,Tarefa genérica 16,Subtarefa ou item de manutenção,Pessoal,Alta,Baixa,30,concluida,,pomodoro;projeto
+T-018,Tarefa genérica 17,Subtarefa ou item de manutenção,Bem-estar,Alta,Baixa,20,pendente,,pomodoro;projeto
+T-019,Tarefa genérica 18,Subtarefa ou item de manutenção,Trabalho,Alta,Alta,40,em_andamento,,pomodoro;projeto
+T-020,Tarefa genérica 19,Subtarefa ou item de manutenção,Trabalho,Média,Média,25,concluida,2026-01-23,foco;saude

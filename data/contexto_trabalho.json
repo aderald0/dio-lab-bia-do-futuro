@@ -1,0 +1,25 @@
+{
+  "area": "Service Desk",
+  "sistemas_criticos": [
+    "Escala_Central.xlsx",
+    "PJE",
+    "VPN",
+    "Email corporativo"
+  ],
+  "politicas": {
+    "resposta_chamados": "até 24h",
+    "priorizacao": [
+      "incidente crítico",
+      "acesso",
+      "tarefa de rotina"
+    ]
+  },
+  "restricoes": [
+    "sem execução de alterações sem autorização",
+    "sem acesso a dados sensíveis"
+  ],
+  "observacoes": [
+    "Automação deve ler dados de Escala_Central.xlsx sempre atualizada",
+    "Preferir blocos de foco em janelas definidas"
+  ]
+}
