@@ -1,16 +1,20 @@
-# 🤖 Agente de Organização Pessoal/Produtividade com IA Generativa
+# 🐉 Focus - Agente de Produtividade Pessoal com IA
 
-## Contexto
+> Projeto desenvolvido como parte do desafio de Agentes Inteligentes com IA Generativa.
 
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente de Organização Pessoal/Produtividade que utiliza IA Generativa para:
+O **Focus** é um assistente virtual proativo que utiliza Inteligência Artificial para ajudar na organização pessoal, priorização de tarefas e gestão de tempo, integrando dados locais (agenda, tarefas) com análise de documentos (RAG).
 
-- **Antecipar necessidades** ao invés de apenas responder perguntas
-- **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
-- **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
+---
 
-> [!TIP]
-> Na pasta [`examples/`](./examples/) você encontra referências de implementação para cada etapa deste desafio.
+## 📋 O Problema
+Profissionais e estudantes frequentemente sofrem com a sobrecarga de informações, dificuldade em priorizar tarefas e desconexão entre o planejamento (agenda) e a execução (lista de tarefas).
+
+## 💡 A Solução
+O Focus atua como um "par organizador" que:
+- **Centraliza** tarefas, rotinas e calendário.
+- **Analisa** documentos (PDFs) para extrair prazos e contextos.
+- **Executa** ações reais (criação de tarefas) via comandos em linguagem natural.
+- **Protege** a privacidade com opção de execução local (Ollama).
 
 ---
 
@@ -111,15 +115,17 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 ## Estrutura do Repositório
 
 ```
-📁 lab-agente-financeiro/
+📁 focus-agente-produtividade/
 │
-├── 📄 README.md
+├── 📄 README.md              # Documentação principal
+├── 📄 requirements.txt       # Dependências do Python
 │
 ├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
+│   ├── tarefas.csv                   # Banco de tarefas (Leitura/Escrita)
+│   ├── calendario_eventos.csv        # Agenda de compromissos (Leitura)
+│   ├── rotinas.json                  # Blocos de rotina diária
+│   ├── contexto_trabalho.json        # Dados do ambiente profissional
+│   └── preferencias_usuario.json     # Configurações de perfil
 │
 ├── 📁 docs/                          # Documentação do projeto
 │   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
