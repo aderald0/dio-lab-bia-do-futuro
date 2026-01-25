@@ -74,64 +74,66 @@ Prefere começar revisando bloqueios ou definindo novas prioridades?"
 
 ---
 
-## Exemplos de Interação
+## Exemplos de Interação (Few-Shot)
 
-### Cenário 1: Planejamento do Dia
+### Cenário 1: Consulta com Contexto de Documento (RAG)
 
-**Contexto:** Usuário tem tarefas pendentes, reuniões marcadas e janelas de foco definidas.
+**Contexto:** O usuário fez upload de um PDF chamado `manual_ferias.pdf` e o conteúdo foi injetado na variável `CONTEÚDO DOCS`.
 
 **Usuário:**
 ```
-Quero me organizar para hoje
+Quantos dias de antecedência preciso para pedir férias?
 ```
 
 **Agente:**
 ```
-Perfeito. Com base na sua agenda e nas tarefas pendentes, preparei uma sugestão com até 5 atividades prioritárias, distribuídas em blocos de foco.
-Opção A prioriza prazos de hoje.
-Opção B foca em avanço consistente sem sobrecarga.
-Qual opção você prefere?
+De acordo com o documento analisado, o pedido de férias deve ser formalizado com 30 dias de antecedência via sistema de RH.
+Quer que eu crie uma tarefa para te lembrar desse prazo?
 ```
 
 ---
 
-### Cenário 2: Quebra de Tarefa Grande
+### Cenário 2: Comando de Ação (Function Calling)
 
-**Contexto:** Usuário selecionou uma tarefa estimada em mais de 60 minutos e possui histórico de procrastinação.
+**Contexto:** O usuário quer agendar uma pendência. O código Python espera um JSON para executar `adicionar_nova_tarefa`.
 
 **Usuário:**
 ```
-Essa tarefa está difícil de começar
+Me lembre de enviar o relatório fiscal até sexta que vem, prioridade alta.
 ```
 **Agente:**
 ```
-Entendi. Para reduzir o atrito, sugiro dividir essa tarefa em blocos menores:
-
-Preparar o ambiente (5 min)
-Bloco de foco 1 (25 min)
-Pausa curta
-Bloco de foco 2 (25 min)
-
-Quer que eu organize isso na sua lista de hoje?
+**Agente (Saída crua para o Sistema):**
+```json
+{
+  "acao": "criar_tarefa",
+  "dados": {
+    "titulo": "Enviar Relatório Fiscal",
+    "prazo": "30/01/2026",
+    "prioridade": "Alta"
+  }
+}
 ```
+(Nota: O usuário verá na interface a mensagem de sucesso gerada pelo Python: "✅ Tarefa Criada: Enviar Relatório Fiscal...")
 ---
-### Cenário 3: Retrospectiva Semanal
+### Cenário 3: Análise de Agenda vs. Tarefas
 
-**Contexto:** Usuário possui dados de progresso de duas semanas.
+**Contexto:** 
+    - Agenda: Reunião às 14:00 (1h de duração).
+    - Tarefas: "Revisar código" (Estimativa: 2h, Alta prioridade).
+    - Hora atual: 13:30.
 
 **Usuário:**
 ```
-Como foi minha semana?
+Posso começar a revisar o código agora?
 ```
 **Agente:**
 ```
-Aqui vai um resumo rápido:
+Não recomendo. Você tem uma **Reunião às 14:00**, daqui a 30 minutos.
 
-Você concluiu 16 tarefas
-Manteve consistência em 9 hábitos
-Seu tempo de foco aumentou em relação à semana anterior
-
-Sugiro ajustar a próxima semana com 3 prioridades principais. Quer definir isso agora?
+A revisão do código exige foco profundo. Sugiro:
+1. Fazer uma tarefa rápida agora (ex: responder e-mails).
+2. Iniciar a revisão às **15:15**, logo após sua reunião.
 ```
 ---
 
@@ -192,6 +194,7 @@ Quebrar uma tarefa específica
 
 > Registre aqui ajustes que você fez nos prompts e por quê.
 
-- Observação 1: Limitar explicitamente o número de tarefas por dia reduziu respostas irreais e sensação de sobrecarga.
-- Observação 2: Incluir exemplos claros de perguntas e respostas (Few‑Shot) melhorou significativamente a previsibilidade do comportamento do agente.
-- Observação 3: Regras explícitas sobre “não criar compromissos” reduziram riscos de alucinação operacional.
+- Formato JSON Forçado: Foi necessário instruir explicitamente o modelo a retornar um JSON puro (application/json) quando a         intenção for criar tarefas. Sem isso, o parser do Python (try: json.loads...) falhava ao tentar ler texto conversacional          misturado com código.
+- Injeção de Data: O prompt depende da variável {dados_ctx['hoje']}. Sem a data atual no contexto, o agente alucinava prazos         relativos (ex: interpretava "próxima sexta" errado).
+- Truncamento de Docs: Para evitar erro de limite de tokens (especialmente no Gemini Flash ou Ollama local), o conteúdo dos PDFs     é limitado a 15.000 caracteres antes de ser inserido no prompt.
+- Prevenção de Loops: O agente foi instruído a não confirmar a criação da tarefa com texto, apenas com o JSON, deixando que a       interface (Streamlit) exiba a mensagem de confirmação para o usuário.
