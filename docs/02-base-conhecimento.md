@@ -2,20 +2,16 @@
 
 ## Dados Utilizados
 
-Objetivo: dar ao agente contexto suficiente para organizar tarefas, priorizar, sugerir rotinas e acompanhar progresso—sempre com consentimento explícito do usuário.
+Objetivo: Fornecer ao agente contexto estruturado (arquivos locais) e não estruturado (documentos enviados) para permitir o planejamento e a execução de tarefas.
 
 | Arquivo | Formato | Utilização no Agente |
 |---------|---------|---------------------|
-| `tarefas.csv` | CSV | Backlog de tarefas com prioridade, contexto, status e estimativa |
-| `rotinas.json` | JSON | Blocos de rotina (manhã, tarde, noite), hábitos e frequência |
-| `preferencias_usuario.json` | JSON | Preferências de comunicação, horários ideais de foco, estilo de lembrete |
-| `calendario_eventos.csv` | CSV | Compromissos fixos (reuniões, prazos, consultas) |
-| `bloqueios_log.csv` | CSV | Registro de bloqueios (procrastinação, interrupções) e possíveis causas |
-| `progresso_semanal.csv` | CSV | Métricas de conclusão, tempo investido, streaks de hábitos |
-| `contexto_trabalho.json` | JSON | Ambiente de trabalho (ex.: Service Desk), softwares, restrições de horário |
-
-> [!TIP]
-> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
+| `tarefas.csv` | CSV | Leitura e Escrita. Contém ID, título, prazo, prioridade e status. É a única fonte que o agente pode modificar via comandos. |
+| `rotinas.json` | JSON | Leitura. Estrutura de hábitos ou blocos de tempo ideais. |
+| `preferencias_usuario.json` | JSON | Leitura. Define o nome do usuário e configurações gerais de tratamento. |
+| `calendario_eventos.csv` | CSV | Leitura. Compromissos com data e descrição. Usado para detectar conflitos de agenda nos próximos 7 dias. |
+| `contexto_trabalho.json` | JSON | Leitura. Informações sobre o ambiente de trabalho e sistemas críticos (foco). |
+| `Upload de PDF/TXT` | Memória | RAG Temporário. Conteúdo extraído na hora (via pypdf) para dar contexto sobre documentos específicos durante a sessão. |
 
 ---
 
@@ -23,64 +19,63 @@ Objetivo: dar ao agente contexto suficiente para organizar tarefas, priorizar, s
 
 > Você modificou ou expandiu os dados mockados? Descreva aqui.
 
-- Normalização de campos: mapeamento de prioridades (Alta/Média/Baixa) e status (pendente/em_andamento/concluida).
-- Deduplicação de tarefas: merge por titulo + contexto quando difere só em descrição.
-- Criação de subtarefas: para tarefas longas (> 60 min), gerar automaticamente passos (ex.: “abrir arquivo”, “validar colunas”, “lançar alterações”, “checagem final”).
-- Enriquecimento de contexto: adicionar tags e estimativa_min se ausentes (estimativa inicial padrão: 25 min).
-- Privacidade: remover PII desnecessária de eventos (ex.: links de reunião, nomes de terceiros).
-- Timezone: alinhar tudo para America/Sao_Paulo.
+O agente não consome os arquivos brutos diretamente na LLM. O código realiza um pré-processamento via Pandas para otimizar o uso de tokens e a relevância:
+- Filtragem Temporal (Agenda):
+    - O código converte a coluna data para datetime.
+    -  Aplica um filtro dinâmico: (data >= hoje) & (data <= hoje + 7 dias).
+    - Eventos passados ou muito distantes são descartados para não poluir o contexto.
+- Saneamento de Tarefas:
+    - Filtra apenas tarefas onde status != 'Concluído'.
+    - Seleciona apenas colunas úteis (titulo, prazo, prioridade, status) para reduzir o ruído.
+    - Tarefas concluídas são contabilizadas apenas no Dashboard (métricas), não no prompt do chat.
+- Memória de Documentos:
+    - Arquivos PDF são convertidos para texto plano e truncados (limitado aos primeiros 15.000 caracteres no app.py) para caber         na janela de contexto dos modelos locais (Ollama) ou nuvem (Gemini).
 
 ---
 
 ## Estratégia de Integração
+A integração segue o padrão de Injeção de Contexto Dinâmico. A cada interação do chat, o sistema recarrega os dados para garantir que o agente saiba o estado mais atual (ex: se o usuário acabou de concluir uma tarefa).
 ```python
 
-import pandas as pd
-import json
-from pathlib import Path
+@st.cache_data(ttl=600) # Cache de 10 min para performance
+def obter_contexto_dados():
+    # 1. Carregamento Físico
+    pref = carregar_json("./data/preferencias_usuario.json")
+    tarefas = carregar_csv("./data/tarefas.csv")
+    cal = carregar_csv("./data/calendario_eventos.csv")
+    
+    # 2. Lógica Temporal
+    agora = datetime.now()
+    limite_dias = agora + timedelta(days=7)
+    
+    # 3. Transformação para Texto (Stringification)
+    # Apenas eventos da próxima semana
+    filtro_cal = cal[(cal['data_dt'] >= agora) & (cal['data_dt'] <= limite_dias)]
+    cal_txt = filtro_cal.to_string(index=False)
+    
+    # Apenas tarefas pendentes
+    filtro_tarefas = tarefas[tarefas['status'] != 'Concluído']
+    tarefas_txt = filtro_tarefas[['titulo', 'prazo', 'prioridade']].to_string(index=False)
 
-DATA_PATH = Path("data")
-
-def carregar_base_conhecimento():
-    base = {}
-
-    # CSVs
-    base["tarefas"] = pd.read_csv(DATA_PATH / "tarefas.csv")
-    base["agenda"] = pd.read_csv(DATA_PATH / "calendario_eventos.csv")
-    base["bloqueios"] = pd.read_csv(DATA_PATH / "bloqueios_log.csv")
-    base["progresso"] = pd.read_csv(DATA_PATH / "progresso_semanal.csv")
-
-    # JSONs
-    with open(DATA_PATH / "rotinas.json", encoding="utf-8") as f:
-        base["rotinas"] = json.load(f)
-
-    with open(DATA_PATH / "preferencias_usuario.json", encoding="utf-8") as f:
-        base["preferencias"] = json.load(f)
-
-    with open(DATA_PATH / "contexto_trabalho.json", encoding="utf-8") as f:
-        base["contexto"] = json.load(f)
-
-    return base
+    return {
+        "pref": pref,
+        "cal_txt": cal_txt,
+        "tarefas_txt": tarefas_txt
+    }
 
 ```
 ### Como os dados são carregados?
 > Descreva como seu agente acessa a base de conhecimento.
 
-- Carregamento inicial: ao iniciar a sessão, o agente tenta ler data/*.csv|json.
-- Cache de sessão: dados estruturados em memória do agente para respostas rápidas.
-- Atualizações incrementais: quando o usuário cria/edita tarefas, o agente atualiza a estrutura em memória e marca para persistir ao final da sessão.
+### Fluxo de Prompting
 
-   Ex.: “Os JSON/CSV são carregados no início da sessão e incluídos no contexto do prompt, com consultas dinâmicas conforme as intenções (priorizar, planejar, revisar).”
-
-### Como os dados são usados no prompt?
-> Os dados vão no system prompt? São consultados dinamicamente?
-
-- System prompt (regras fixas): princípios do agente (não executar ações sem autorização, sugerir opções, respeitar janelas de foco, evitar overbooking).
-- Contexto dinâmico do usuário: recortes dos dados relevantes à intenção atual:
-  - Se a intenção for planejar o dia, incluir tarefas pendentes + eventos de hoje + preferências de janelas de foco.
-  - Se for quebrar uma tarefa grande, incluir detalhes da tarefa + bloqueios anteriores + contexto_trabalho.
-  - Se for retrospectiva semanal, incluir progresso_semanal.csv + tarefas concluídas/pendentes.
-- Memória leve: preferências do Aderaldo para tom, número máximo de tarefas/dia, janelas de foco.
+- Usuário envia mensagem.
+- Sistema:
+    - Recupera histórico do chat.
+    - Executa obter_contexto_dados() (lê CSV/JSON).
+    - Lê st.session_state.doc_text (conteúdo do PDF carregado, se houver).
+- Montagem: Combina System Prompt + Dados Estruturados + Mensagem do Usuário.
+- Inferência: Envia tudo para Gemini ou Ollama.
 
 ---
 
@@ -88,39 +83,34 @@ def carregar_base_conhecimento():
 
 > Mostre um exemplo de como os dados são formatados para o agente.
 
-```
+```text
+[SYSTEM_PROMPT]
+Você é o agente Focus... (regras de comportamento, não inventar dados, etc)...
 
-[Persona]
-Usuário: ADERALDO DE JESUS AMARAL (Analista Service Desk Jr)
-Preferências: tom direto e positivo; sugestões em passos; blocos 25/5; janelas de foco 09:00–11:00, 14:00–16:00; evitar interrupções 12:00–13:00 e 18:00–07:00.
+DATA HOJE: 25/01/2026, Sábado
+CONTEXTO DO USUÁRIO: Aderaldo | Foco: Sistemas Críticos Service Desk
 
-[Agenda de Hoje - 2026-01-23]
-- 10:00–11:00 — Reunião SD (alinhamento semanal) [Obrigatório]
-- 15:00–15:30 — Checagem PJE (verificar acessos e prazos) [Obrigatório]
+AGENDA (7 DIAS):
+ data        evento             horario
+ 27/05/2024  Reunião Semanal    10:00
+ 28/05/2024  Dentista           14:00
 
-[Tarefas Pendentes Relevantes]
-- (T-001) Atualizar planilha Escala_Central — Pri: Alta; Urg: Alta; Est: 45min; Status: em_andamento; Deadline: 2026-01-23; Tags: planilha;ti;service_desk
-- (T-002) Revisar checklist do PJE — Pri: Média; Urg: Média; Est: 30min; Status: pendente; Deadline: 2026-01-24; Tags: judiciario;software
-- (T-004) Organizar e-mail (inbox zero) — Pri: Baixa; Urg: Baixa; Est: 25min; Status: pendente
+TAREFAS PENDENTES:
+ titulo                  prazo       prioridade  status
+ Relatório Mensal        25/05/2024  Alta        Pendente
+ Configurar Backup       26/05/2024  Média       Pendente
+ Comprar café            30/05/2024  Baixa       Pendente
 
-[Bloqueios Recentes]
-- T-001: interrupções por mensagens de chat às 10:40; Ação sugerida: modo não perturbe 25min
-- T-004: procrastinação por falta de clareza; Ação sugerida: quebrar em subtarefas
+CONTEÚDO DOCS:
+(Conteúdo extraído do PDF "Manual_Procedimentos.pdf" enviado pelo usuário...)
+...O procedimento de backup deve ser realizado via script bash...
 
-[Regras do Agente]
-- Não criar compromissos ou alterar dados sem confirmação explícita.
-- Sugerir no máximo 5 tarefas para o dia (limitador de carga).
-- Propor blocos concentrados nas janelas de foco; usar pomodoro 25/5.
-- Quando o contexto for insuficiente, perguntar de forma objetiva.
+HISTÓRICO:
+USER: O que eu tenho pra fazer hoje urgente?
+ASSISTANT: Você tem o Relatório Mensal para entregar hoje.
+USER: Certo, e como eu faço o backup?
 
-[Pedido do Usuário]
-"Ajudar a montar um plano para hoje priorizando tarefas mais urgentes."
-
-[Resposta Esperada - Diretrizes]
-- Propor agenda enxuta (<= 5 itens), encaixando tarefas entre 09:00–11:00 e 14:00–16:00,
-  respeitando reuniões às 10:00–11:00 e 15:00–15:30.
-- Começar por T-001 (deadline hoje), sugerindo um bloco de 45min + buffers.
-- Quebrar T-004 em subtarefas para reduzir atrito.
-- Oferecer duas opções de agenda (A/B) e pedir confirmação única.
+USUÁRIO:
+(Nova pergunta entra aqui)
 
 ```
