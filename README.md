@@ -17,7 +17,30 @@ O Focus atua como um "par organizador" que:
 - **Protege** a privacidade com opção de execução local (Ollama).
 
 ---
+## 🏗️ Arquitetura e Tecnologias
 
+O projeto utiliza uma arquitetura híbrida de injeção de contexto (RAG) e chamadas de função (Function Calling).
+
+| Componente | Tecnologia | Função |
+|------------|------------|--------|
+| **Interface** | Streamlit | Chat interativo, Dashboard de métricas e Upload de arquivos. |
+| **Cérebro (LLM)** | Google Gemini / Ollama | Interpretação de intenções e geração de respostas. |
+| **Dados** | Pandas (CSV/JSON) | Manipulação de tarefas e agenda em tempo real. |
+| **RAG** | PyPDF | Extração de texto de documentos para contexto. |
+
+### Diagrama de Fluxo
+```mermaid
+flowchart TD
+    User[Usuário] -->|Chat/Arquivo| UI[Interface Streamlit]
+    UI --> Context[Montador de Contexto]
+    Data[(CSVs e JSONs)] <--> Context
+    Docs[PDF Upload] --> Context
+    Context --> LLM["IA (Gemini/Ollama)"]
+    LLM -->|Resposta Texto| UI
+    LLM -->|Comando JSON| Action[Executor de Ações]
+    Action -->|Criar Tarefa| Data
+```
+---
 ## O Que Você Deve Entregar
 
 ### 1. Documentação do Agente
