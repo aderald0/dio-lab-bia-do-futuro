@@ -27,8 +27,12 @@
   },
   "habitos": [
     {
-      "nome": "caminhada",
+      "nome": "corrida",
       "frequencia": "3x/semana"
+    },
+    {
+      "nome": "estudo pós-graduação",
+      "frequencia": "1h/dia"
     },
     {
       "nome": "leitura",
