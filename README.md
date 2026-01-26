@@ -108,6 +108,7 @@ Descreva como você avalia a qualidade do seu agente:
 - Coerência com o perfil do cliente
 
 📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
+📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
 
 ---
 
