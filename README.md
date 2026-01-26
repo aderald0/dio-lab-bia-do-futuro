@@ -162,7 +162,10 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 │   └── 05-pitch.md                   # Roteiro do pitch
 │
 ├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
+│   ├── app.py                        # Interface (Streamlit) e orquestração
+│   ├── agente.py                     # Lógica do agente (dados, prompt, LLM, comandos)
+|   ├── config.py                     # Configuração (paths, API key, logger)
+|   └── requirements.txt              # Dependências
 │
 ├── 📁 assets/                        # Imagens e diagramas
 │   └── ...
