@@ -1,6 +1,3 @@
-# Pitch (3 minutos)
-
- 
 # Pitch (3 minutos) - Agente Focus
 
 ## Roteiro
