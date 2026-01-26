@@ -28,6 +28,12 @@ O projeto foi construído em Python utilizando Streamlit para interface e Pandas
 | **Dados** | Pandas (CSV/JSON) | Banco de dados local para tarefas e rotinas. |
 | **Processamento** | PyPDF | Extração de texto de documentos enviados. |
 
+## 🚀 Como Rodar o Projeto
+
+### Pré-requisitos
+- Python 3.10 ou superior
+- Uma API Key do Google AI Studio (para usar o Gemini) OU Ollama instalado localmente.
+
 ### Diagrama de Fluxo
 ```mermaid
 flowchart TD
@@ -41,7 +47,6 @@ flowchart TD
     Action -->|Criar Tarefa| Data
 ```
 ---
-## O Que Você Deve Entregar
 
 ### 1. Documentação do Agente
 
@@ -52,7 +57,7 @@ Defina **o que** seu agente faz e **como** ele funciona:
 - **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
 - **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
 
-📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
+📄 **Documentação:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
 
 ---
 
@@ -100,7 +105,6 @@ Desenvolva um **protótipo funcional** do seu agente:
 
 ### 5. Avaliação e Métricas
 
-Descreva como você avalia a qualidade do seu agente:
 
 **Métricas Sugeridas:**
 - Precisão/assertividade das respostas
@@ -115,26 +119,11 @@ Descreva como você avalia a qualidade do seu agente:
 
 ### 6. Pitch
 
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
-
 - Qual problema seu agente resolve?
 - Como ele funciona na prática?
 - Por que essa solução é inovadora?
 
 📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
-
----
-
-## Ferramentas Sugeridas
-
-Todas as ferramentas abaixo possuem versões gratuitas:
-
-| Categoria | Ferramentas |
-|-----------|-------------|
-| **LLMs** | [ChatGPT](https://chat.openai.com/), [Copilot](https://copilot.microsoft.com/), [Gemini](https://gemini.google.com/), [Claude](https://claude.ai/), [Ollama](https://ollama.ai/) |
-| **Desenvolvimento** | [Streamlit](https://streamlit.io/), [Gradio](https://www.gradio.app/), [Google Colab](https://colab.research.google.com/) |
-| **Orquestração** | [LangChain](https://www.langchain.com/), [LangFlow](https://www.langflow.org/), [CrewAI](https://www.crewai.com/) |
-| **Diagramas** | [Mermaid](https://mermaid.js.org/), [Draw.io](https://app.diagrams.net/), [Excalidraw](https://excalidraw.com/) |
 
 ---
 
@@ -144,7 +133,6 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 📁 focus-agente-produtividade/
 │
 ├── 📄 README.md              # Documentação principal
-├── 📄 requirements.txt       # Dependências do Python
 │
 ├── 📁 data/                          # Dados mockados para o agente
 │   ├── tarefas.csv                   # Banco de tarefas (Leitura/Escrita)
@@ -152,6 +140,7 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 │   ├── rotinas.json                  # Blocos de rotina diária
 │   ├── contexto_trabalho.json        # Dados do ambiente profissional
 │   └── preferencias_usuario.json     # Configurações de perfil
+|
 ├── 📁 logs/                          # Dados de LOGs
 │   ├── focus.log                     # Log de eventos
 |
