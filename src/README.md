@@ -1,8 +1,7 @@
 # Código da Aplicação
 
-Esta pasta contém o código do seu agente financeiro.
 
-## Estrutura Sugerida
+## Estrutura
 
 ```
 src/
@@ -15,17 +14,21 @@ src/
 ## Exemplo de requirements.txt
 
 ```
-streamlit
-openai
-python-dotenv
+# src/requirements.txt
+streamlit>=1.38.0
+pandas>=2.2.0
+requests>=2.31.0
+google-generativeai>=0.7.2
+pypdf>=4.2.0
+python-dotenv>=1.0.1
 ```
 
 ## Como Rodar
 
 ```bash
 # Instalar dependências
-pip install -r requirements.txt
+pip install pandas requests streamlit google.generativeai pypdf python-dotenv
 
 # Rodar a aplicação
-streamlit run app.py
+python -m streamlit run .\src\app.py 
 ```
