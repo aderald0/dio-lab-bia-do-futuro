@@ -154,6 +154,7 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 │   └── preferencias_usuario.json     # Configurações de perfil
 ├── 📁 logs/                          # Dados de LOGs
 │   ├── focus.log                     # Log de eventos
+|
 ├── 📁 docs/                          # Documentação do projeto
 │   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
 │   ├── 02-base-conhecimento.md       # Estratégia de dados
