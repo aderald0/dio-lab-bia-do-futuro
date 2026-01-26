@@ -1,6 +1,6 @@
 # 🐉 Focus - Agente de Produtividade Pessoal com IA
 
-> Projeto desenvolvido como parte do desafio de Agentes Inteligentes com IA Generativa.
+> Assistente virtual inteligente focado em organização pessoal, integrando tarefas, agenda e análise de documentos.
 
 O **Focus** é um assistente virtual proativo que utiliza Inteligência Artificial para ajudar na organização pessoal, priorização de tarefas e gestão de tempo, integrando dados locais (agenda, tarefas) com análise de documentos (RAG).
 
@@ -10,23 +10,23 @@ O **Focus** é um assistente virtual proativo que utiliza Inteligência Artifici
 Profissionais e estudantes frequentemente sofrem com a sobrecarga de informações, dificuldade em priorizar tarefas e desconexão entre o planejamento (agenda) e a execução (lista de tarefas).
 
 ## 💡 A Solução
-O Focus atua como um "par organizador" que:
-- **Centraliza** tarefas, rotinas e calendário.
-- **Analisa** documentos (PDFs) para extrair prazos e contextos.
-- **Executa** ações reais (criação de tarefas) via comandos em linguagem natural.
-- **Protege** a privacidade com opção de execução local (Ollama).
+O Focus atua como um hub central que:
+- **Centraliza** tarefas (CSV) e agenda.
+- **Analisa** documentos PDF (ex: cronogramas de aulas, boletos) para extrair prazos.
+- **Executa** a criação de tarefas via comandos de linguagem natural.
+- **Privacidade:** Suporte a execução local (Ollama) ou nuvem (Gemini).
 
 ---
 ## 🏗️ Arquitetura e Tecnologias
 
-O projeto utiliza uma arquitetura híbrida de injeção de contexto (RAG) e chamadas de função (Function Calling).
+O projeto foi construído em Python utilizando Streamlit para interface e Pandas para gestão de dados.
 
 | Componente | Tecnologia | Função |
 |------------|------------|--------|
-| **Interface** | Streamlit | Chat interativo, Dashboard de métricas e Upload de arquivos. |
-| **Cérebro (LLM)** | Google Gemini / Ollama | Interpretação de intenções e geração de respostas. |
-| **Dados** | Pandas (CSV/JSON) | Manipulação de tarefas e agenda em tempo real. |
-| **RAG** | PyPDF | Extração de texto de documentos para contexto. |
+| **Frontend** | [Streamlit](https://streamlit.io/) | Chat interativo e Dashboard de métricas. |
+| **IA / LLM** | Google Gemini / Ollama | Cérebro para interpretação de intenções e RAG. |
+| **Dados** | Pandas (CSV/JSON) | Banco de dados local para tarefas e rotinas. |
+| **Processamento** | PyPDF | Extração de texto de documentos enviados. |
 
 ### Diagrama de Fluxo
 ```mermaid
