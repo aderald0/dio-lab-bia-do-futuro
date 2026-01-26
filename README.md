@@ -75,7 +75,7 @@ Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alim
 | `Upload de PDF/TXT` | Memória | RAG Temporário. Conteúdo extraído na hora (via pypdf) para dar contexto sobre documentos específicos durante a sessão. |
 
 
-📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
+📄 **Base:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
 
 ---
 
@@ -87,7 +87,7 @@ Documente os prompts que definem o comportamento do seu agente:
 - **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
 - **Tratamento de Edge Cases:** Como o agente lida com situações limite
 
-📄 **Template:** [`docs/03-prompts.md`](./docs/03-prompts.md)
+📄 **Prompt:** [`docs/03-prompts.md`](./docs/03-prompts.md)
 
 ---
 
@@ -123,7 +123,7 @@ Desenvolva um **protótipo funcional** do seu agente:
 - Como ele funciona na prática?
 - Por que essa solução é inovadora?
 
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
+📄 **Pitch:** [`docs/05-pitch.md`](./docs/05-pitch.md)
 
 ---
 
@@ -132,7 +132,7 @@ Desenvolva um **protótipo funcional** do seu agente:
 ```
 📁 focus-agente-produtividade/
 │
-├── 📄 README.md              # Documentação principal
+├── 📄 README.md                      # Documentação principal
 │
 ├── 📁 data/                          # Dados mockados para o agente
 │   ├── tarefas.csv                   # Banco de tarefas (Leitura/Escrita)
@@ -165,11 +165,3 @@ Desenvolva um **protótipo funcional** do seu agente:
 ```
 
 ---
-
-## Dicas Finais
-
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
