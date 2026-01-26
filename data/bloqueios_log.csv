@@ -1,4 +1,0 @@
-data,hora,tarefa_id,tipo_bloqueio,observacao,acao_sugerida
-2026-01-21,10:40,T-001,interrupcao,mensagens constantes no chat,ativar modo não perturbe 25min
-2026-01-21,16:20,T-004,procrastinacao,tarefa pouco clara,quebrar em subtarefas
-2026-01-19,09:10,T-002,dependencia,aguardando confirmação de acesso,verificar com TI responsável
